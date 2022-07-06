@@ -24,11 +24,13 @@ const circles = document.getElementsByClassName('ball');
 const randomCircle = circles[Math.floor(Math.random() * circles.length)];
 randomCircle.style.backgroundColor = specificColor;
 console.log(randomCircle);
+
 for (let index = 0; index < circles.length; index += 1) {
   if (circles[index].style.backgroundColor !== specificColor) {
     circles[index].style.backgroundColor = generateRandomColor();
   }
 }
+
 const answer = document.getElementById('answer');
 for (let index = 0; index < circles.length; index += 1) {
   circles[index].addEventListener('click', (event) => {
