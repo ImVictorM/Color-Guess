@@ -32,19 +32,50 @@ function applyRandomColors(specificColor) {
   }
 }
 
+function incrementScore() {
+  const score = document.getElementById('score').innerText;
+  const increment = Number(score) + 3;
+  document.getElementById('score').innerText = increment;
+}
+
+const answer = document.getElementById('answer');
+
+function validation() {
+  for (let index = 0; index < circles.length; index += 1) {
+    if (circles[index].classList.contains('hitedElement')) {
+      answer.style.color = 'red';
+      answer.innerText = 'Reinicie o jogo';
+    }
+  }
+}
+
+function hitTheColor(event, specificColor) {
+  validation();
+  if (answer.innerText !== 'Reinicie o jogo') {
+    if (event.target.style.backgroundColor === specificColor) {
+      event.target.classList.add('hitedElement');
+      answer.innerText = 'Acertou!';
+      answer.style.color = 'rgb(8, 134, 8)';
+      incrementScore();
+    } else {
+      answer.innerText = 'Errou! Tente novamente!';
+    }
+  }
+}
+
 function startGame() {
-  document.getElementById('answer').innerText = 'Escolha uma cor';
+  const hitedElement = document.getElementsByClassName('hitedElement')[0];
+  if (hitedElement) {
+    hitedElement.classList.remove('hitedElement');
+  }
+  answer.innerText = 'Escolha uma cor';
+  answer.style.color = 'black';
   const specificColor = generateRandomColor();
   applySpecificColor(specificColor);
   applyRandomColors(specificColor);
-  const answer = document.getElementById('answer');
   for (let index = 0; index < circles.length; index += 1) {
     circles[index].addEventListener('click', (event) => {
-      if (event.target.style.backgroundColor === specificColor) {
-        answer.innerText = 'Acertou!';
-      } else {
-        answer.innerText = 'Errou! Tente novamente!';
-      }
+      hitTheColor(event, specificColor);
     });
   }
 }
